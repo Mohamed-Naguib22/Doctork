@@ -15,4 +15,5 @@ public interface IDoctorRepository
     Task<bool> IsVerifiedAsync(string doctorId);
     Task<bool> DoctorExistsAsync(string email);
     Task ConfirmDoctorEmailAsync(string email);
+    Task DeleteDoctorAsync(string id);
 }

@@ -4,12 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Doctork.Api.Controllers;
 
-
 [ApiController]
 [Route("api/[controller]")]
 public class SpecializationController : ControllerBase
 {
-
     private readonly IMediator _mediator;
     public SpecializationController(IMediator mediator)
     {

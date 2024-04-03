@@ -17,17 +17,20 @@ public class PasswordAttribute : ValidationAttribute
         var password = value as string;
         var errorMessage = string.Empty;
 
+        if (string.IsNullOrEmpty(password))
+            return true;
+
         if (!Regex.IsMatch(password, @"[A-Z]")) 
-        errorMessage += "password must contain at least one uppercase letter\n";
+            errorMessage += "password must contain at least one uppercase letter. ";
 
         if (!Regex.IsMatch(password, @"[a-z]"))
-            errorMessage += "password must contain at least one lowercase letter\n";
+            errorMessage += "password must contain at least one lowercase letter. ";
 
         if (!Regex.IsMatch(password, @"[!@#$%^&*()_+=\[{\]};:<>|./?,-]"))
-            errorMessage += "password must contain at least one special character\n";
+            errorMessage += "password must contain at least one special character. ";
 
         if (password.Length < 6)
-            errorMessage += "password must be at least 6 characters long";
+            errorMessage += "password must be at least 6 characters long.";
 
         if (!string.IsNullOrEmpty(errorMessage))
         {

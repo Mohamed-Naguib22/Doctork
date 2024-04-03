@@ -1,8 +1,0 @@
-CREATE PROCEDURE AddRole
-	@Id VARCHAR(255),	
-	@Name VARCHAR(255)
-AS
-BEGIN
-	INSERT INTO Roles(Id, [Name]) 
-	VALUES(@Id, @Name);
-END

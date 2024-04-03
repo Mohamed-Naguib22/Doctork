@@ -26,7 +26,7 @@ public class VerifyAccountHandler : IRequestHandler<VerifyAccountQuery, AuthDto>
         var user = await _authentication.GetUserByEmailAsync(verifyAccountDto.Email);
 
         if (user == null)
-            return new AuthDto { Succeeded = false, Message = "The email is incorrect" };
+            return new AuthDto { Succeeded = false, Message = "Email is incorrect" };
 
         var cachedCode = _cacheService.Get<string>($"{user.Id}_VerificationCode");
 

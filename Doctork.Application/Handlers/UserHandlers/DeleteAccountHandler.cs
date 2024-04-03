@@ -24,6 +24,9 @@ public class DeleteAccountHandler : IRequestHandler<DeleteAccountCommand, bool>
     {
         var user = await _authentication.GetUserFromRefreshTokenAsync(request.RefreshToken);
 
+        if (user.RoleId == (await _authentication.GetRoleByNameAsync("Doctor")).Id)
+            await _unitOfWork.Doctors.DeleteDoctorAsync(user.Id);
+
         if (user == null)
             return false;
 

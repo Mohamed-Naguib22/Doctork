@@ -15,6 +15,7 @@ public class UnitOfWork : IUnitOfWork
     public IDoctorRepository Doctors { get; private set; }
     public IClinicRepository Clinics { get; private set; }
     public ISpecializationRepository Specializations { get; private set; }
+    public IInsuranceCompanyRepository InsuranceCompanies { get; private set; }
     public IUserRepository Users { get; private set; }
     public UnitOfWork(IDbConnection connection)
     {   
@@ -23,6 +24,7 @@ public class UnitOfWork : IUnitOfWork
         Users = new UserRepository(_connection);
         Specializations = new SpecializationRepository(_connection);
         Clinics = new ClinicRepository(_connection);
+        InsuranceCompanies = new InsuranceCompanyRepository(_connection);
     }
 
     public void Dispose()

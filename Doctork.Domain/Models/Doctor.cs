@@ -18,8 +18,6 @@ public class Doctor
     public string PracticeLicenceUrl { get; set; }
     [Range(0, double.MaxValue)]
     public decimal Fees { get; set; }
-    [MaxLength(128)]
-    public string MainSpecialization { get; set; }
-    [MaxLength(128)]
-    public string SecondSpecialization { get; set; }
+    public int MainSpecializationId { get; set; }
+    public int SecondSpecializationId { get; set; }
 }

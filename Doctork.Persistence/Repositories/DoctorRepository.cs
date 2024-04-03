@@ -75,6 +75,9 @@ public class DoctorRepository : IDoctorRepository
     public async Task<bool> DoctorExistsAsync(string email) =>
         await _connection.QuerySingleOrDefaultAsync<int>("SELECT COUNT(*) FROM Doctors JOIN Users ON Doctors.Id = Users.Id WHERE Email = @Email", new { Email = email }) > 0;
 
+    public async Task DeleteDoctorAsync(string id) =>
+        await _connection.ExecuteAsync("DELETE FROM Doctors WHERE Id = @Id;", new { Id = id });
+
     public async Task ConfirmDoctorEmailAsync(string email)
     {
         _connection.Open();

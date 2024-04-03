@@ -11,5 +11,6 @@ public interface IUnitOfWork : IDisposable
     IDoctorRepository Doctors { get; }
     IClinicRepository Clinics { get; }
     ISpecializationRepository Specializations { get; }
+    IInsuranceCompanyRepository InsuranceCompanies { get; }
     IUserRepository Users { get; }
 }

@@ -12,17 +12,15 @@ using System.Threading.Tasks;
 namespace Doctork.Application.Dtos.Auth;
 public class RegisterDoctorDto : RegisterDto
 {
-    [Required, StringLength(128)]
-    public string MainSpecialization { get; set; }
-    [Required, StringLength(128)]
-    public string SecondSpecialization { get; set; }
+    public int MainSpecializationId { get; set; }
+    public int SecondSpecializationId { get; set; }
     [Required, StringLength(128)]
     public string Certificate { get; set; }
     [Required, StringLength(128)]
     public string JobTitle { get; set; }
     [Required, Range(0, double.MaxValue, ErrorMessage = "Please enter a valid fees")]
     public decimal Fees { get; set; }
-    public IFormFile? PracticeLicence { get; set; }
+    public IFormFile PracticeLicence { get; set; }
     public AddClinicDto? Clinic { get; set; }
     [Range(1, int.MaxValue, ErrorMessage = "Please enter a valid Id")]
     public int? ClinicId { get; set; }

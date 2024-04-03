@@ -13,7 +13,7 @@ public class RegisterDto
 {
     [EmailAddress, StringLength(128)]
     public string Email { get; set; }
-    [Password]
+    [Required, Password]
     public string Password { get; set; }
     [StringLength(128)]
     public string FirstName { get; set; }

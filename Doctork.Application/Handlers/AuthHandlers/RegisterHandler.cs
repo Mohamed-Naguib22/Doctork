@@ -2,6 +2,7 @@
 using Doctork.Application.Abstraction;
 using Doctork.Application.Commands.AuthCommands;
 using Doctork.Application.Dtos;
+using Doctork.Application.Helpers;
 using Doctork.Application.Interfaces;
 using Doctork.Domain.Models;
 using MediatR;
@@ -54,17 +55,11 @@ public class RegisterHandler : IRequestHandler<RegisterCommand, AuthDto>
 
         await _authentication.InsertUserAsync(user);
 
-        var verificationCode = GenerateRandomCode();
+        var verificationCode = RandomCodeGenerator.GenerateCode();
 
         await _emailSender.SendEmailAsync(user.Email, "Verification Code", $"Your verification code is {verificationCode}");
         _cacheService.Set($"{user.Id}_VerificationCode", verificationCode, _CodeExpiration);
         
         return new AuthDto { Succeeded = true, Message = "Check your email to verify your account" };
-    }
-    private static string GenerateRandomCode()
-    {
-        var random = new Random();
-        string code = random.Next(100000, 999999).ToString();
-        return code;
     }
 }

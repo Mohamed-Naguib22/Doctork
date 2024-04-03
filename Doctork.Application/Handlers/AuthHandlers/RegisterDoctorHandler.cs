@@ -57,9 +57,15 @@ public class RegisterDoctorHandler : IRequestHandler<RegisterDoctorCommand, Auth
             var doctor = _mapper.Map<RegisterDoctorWithClinic>(registerDto);
 
             doctor.DoctorId = user.Id;
+
+            if (registerDto.InsuranceIds == null || !registerDto.InsuranceIds.Any())
+            {
+                await _unitOfWork.Users.DeleteUserAsync(user.Id);
+                return new AuthDto { Succeeded = false, Message = "Please add insurance companies" };
+            }
+
             doctor.InsuranceCompanyIds = string.Join(",", registerDto.InsuranceIds);
-            //doctor.PracticeLicenceUrl = _imageService.SetImage(registerDto.PracticeLicence);
-            doctor.PracticeLicenceUrl = "test";
+            doctor.PracticeLicenceUrl = _imageService.SetImage(registerDto.PracticeLicence);
 
             await _unitOfWork.Doctors.RegisterDoctorWithClinicAsync(doctor, registerDto.Schedule);
         }
@@ -67,8 +73,7 @@ public class RegisterDoctorHandler : IRequestHandler<RegisterDoctorCommand, Auth
         {
             var doctor = _mapper.Map<Doctor>(registerDto);
             doctor.DoctorId = user.Id;
-            //doctor.PracticeLicenceUrl = _imageService.SetImage(registerDto.PracticeLicence);
-            doctor.PracticeLicenceUrl = "test";
+            doctor.PracticeLicenceUrl = _imageService.SetImage(registerDto.PracticeLicence);
 
             await _unitOfWork.Doctors.RegisterDoctorAsync(doctor, (int)registerDto.ClinicId, registerDto.Schedule);
 
@@ -90,6 +95,6 @@ public class RegisterDoctorHandler : IRequestHandler<RegisterDoctorCommand, Auth
             $"Dear Dr. {user.FirstName} ,Thanks for joining Doctork! To ensure patient safety, we verify all doctors. " +
             "We'll check your background & license and may request additional info. We'll notify you once your account is active.");
 
-        return new AuthDto { Succeeded = true, Message = "User registered successfully" };
+        return new AuthDto { Succeeded = true, Message = "Registered successfully, please check your email" };
     }
 }

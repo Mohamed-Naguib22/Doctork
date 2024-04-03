@@ -22,18 +22,18 @@ namespace Dockork.Api.Controllers
             _authentication = authentication;
         }
 
-        [HttpGet("add-role")]
-        public async Task<IActionResult> AddRoleAsync([FromQuery] string name)
-        {
-            var role = new Role
-            {
-                Id = Guid.NewGuid().ToString(),
-                Name = name,
-            };
+        //[HttpGet("add-role")]
+        //public async Task<IActionResult> AddRoleAsync([FromQuery] string name)
+        //{
+        //    var role = new Role
+        //    {
+        //        Id = Guid.NewGuid().ToString(),
+        //        Name = name,
+        //    };
 
-            await _authentication.AddRoleAsync(role);
-            return NoContent();
-        }
+        //    await _authentication.AddRoleAsync(role);
+        //    return NoContent();
+        //}
 
         [HttpPost("register")]
         public async Task<IActionResult> RegisterAsync([FromBody] RegisterDto registerDto)
@@ -49,7 +49,7 @@ namespace Dockork.Api.Controllers
         }
 
         [HttpPost("register-doctor")]
-        public async Task<IActionResult> RegisterDoctorAsync([FromBody] RegisterDoctorDto registerDto)
+        public async Task<IActionResult> RegisterDoctorAsync([FromForm] RegisterDoctorDto registerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -74,9 +74,25 @@ namespace Dockork.Api.Controllers
             return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
         }
 
+        [HttpPost("resend-code")]
+        public async Task<IActionResult> ResendVerificationAsync([FromBody] EmailDto emailDto)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var query = new ResendCodeQuery(emailDto);
+
+            var result = await _mediator.Send(query);
+
+            return result.Succeeded ? Ok(result.Message) : BadRequest(result.Message);
+        }
+
         [HttpPost("login")]
         public async Task<IActionResult> LoginAsync([FromBody] LoginDto loginDto)
         {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
             var query = new LoginQuery(loginDto);
 
             var result = await _mediator.Send(query);
