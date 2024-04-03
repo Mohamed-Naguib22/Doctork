@@ -92,7 +92,7 @@ public class RegisterDoctorHandler : IRequestHandler<RegisterDoctorCommand, Auth
         }
 
         await _emailSender.SendEmailAsync(user.Email, "Welcome to Doctork! Verification Needed",
-            $"Dear Dr. {user.FirstName} ,Thanks for joining Doctork! To ensure patient safety, we verify all doctors. " +
+            $"Dear Dr. {user.LastName} ,Thanks for joining Doctork! To ensure patient safety, we verify all doctors. " +
             "We'll check your background & license and may request additional info. We'll notify you once your account is active.");
 
         return new AuthDto { Succeeded = true, Message = "Registered successfully, please check your email" };
